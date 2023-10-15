@@ -1,6 +1,12 @@
 # CRA React-Redux Redux-Saga/Saga-Query Typescript Template
 
-## THIS IS A FUNCTIONAL WORK IN PROGRESS
+This repository serves as a functional template that can be used as a starting point for your projects. It includes all the necessary configurations and dependencies to get you up and running quickly.
+
+Please note that this template is still a work in progress and will be updated periodically. While it's functional and usable, there might be ongoing improvements, bug fixes, or new features being added. Feel free to use it as is or customize it to suit your needs.
+
+If you encounter any issues or have suggestions for improvements, please create an issue or submit a pull request. Your feedback is greatly appreciated!
+
+Happy coding!
 
 # Getting Started with Create React App
 
