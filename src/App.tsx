@@ -1,22 +1,34 @@
-import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "./state";
-import { selectCounter, counterOp } from "./state";
-import { removePosts, loadPosts, postList } from "./state";
+import { useMemo, useState } from 'react';
+import { useLoader } from 'saga-query/react';
+
+import './App.scss';
+import {
+    counterOp, loadPosts, postList, removePosts, selectCounter, useAppDispatch, useAppSelector
+} from './state';
 
 import type { TPost } from "./types";
-
-import "./App.scss";
 
 function App() {
   const dispatch = useAppDispatch();
   const [count, setCount] = useState(0);
   const [postsToFetch, setPostsToFetch] = useState(1);
   const counter = useAppSelector(selectCounter);
-  const posts:TPost[] = useAppSelector(postList) ;
+  const posts: TPost[] = useAppSelector(postList);
+  const loader = useLoader(loadPosts);
+  const buttonLabel = useMemo(() => {
+    switch (loader?.status) {
+      case "loading":
+        return "≋";
+      case "success":
+        return '⟳';
+      default:
+        return "⩗";
+    }
+  }, [loader?.status]);
   return (
     <div id={"containerMain"}>
       <div id={"containerHeader"}>
-         <h1>Webpack + React + Redux-Saga</h1>
+        <h1>Webpack + React + Redux-Saga</h1>
         <h2>with saga-query</h2>
       </div>
       <div id="local-pane">
@@ -64,7 +76,8 @@ function App() {
             -
           </button>
           <button onClick={() => dispatch(loadPosts({ id: postsToFetch }))}>
-            Fetch post id:{postsToFetch}
+            Fetch post id:{postsToFetch}&nbsp;&nbsp;
+            <span style={{color:'#DA5359'}}>{buttonLabel}</span>
           </button>
           <button
             onClick={() =>
@@ -83,13 +96,14 @@ function App() {
           </button>
           {posts.map((post) => ({ ...post, id: post.id.toString() })).map((post) => {
             return (
-              <div key={post.id} style={{textAlign:"left"}}>
+              <div key={post.id} style={{ textAlign: "left" }}>
                 <h4>{post.title}{'  [#'}{post.id}{']'}</h4>
                 <p>{post.body}</p>
               </div>
             );
           })}
         </div>
+       
       </div>
       <div id="containerFooter">
         <p>
